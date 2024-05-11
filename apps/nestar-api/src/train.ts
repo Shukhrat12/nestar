@@ -1,17 +1,14 @@
-// ZJ-TASK:
+// ZK-TASK:
 
-// Shunday function yozing, u berilgan arrayni ichidagi numberlarni qiymatini hisoblab qaytarsin.
-// MASALAN: reduceNestedArray([1, [1, 2, [4]]]) return 8
+// Shunday function yozing, u har soniyada bir marta consolega 1 dan 5 gacha bolgan raqamlarni chop etsin va 5 soniyadan keyin ishini toxtatsin.
+// MASALAN: printNumbers()
 
-function reduceNestedArray(param: (number | (number | number[])[])[]) {
-    let sum: number = 0;
-    const res = param.flat(2)
-    for (let i = 0; i < res.length; i++) {
-        sum += res[i]
+function printNumbers() {
+    for (let i = 0; i < 5; i++) {
+        console.log(i)
     }
-
-    return sum;
 }
 
-const result = reduceNestedArray([1, [1, 2, [4]]])
-console.log(result)
+let res = setInterval(printNumbers, 1000)
+
+setTimeout(() => { clearInterval(res); printNumbers }, 5000);

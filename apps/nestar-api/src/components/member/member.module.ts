@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
 
-@Module({})
-export class MemberModule {}
+@Module({
+
+})
+
+
+export class MemberModule { }

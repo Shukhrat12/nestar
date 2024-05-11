@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose'
-import { MemberType } from '../libs/enums/member.enum'
+import { MemberAuthType, MemberStatus, MemberType } from '../libs/enums/member.enum'
 const MemberSchema = new Schema({
     memberType: {
         type: String,
@@ -9,14 +9,14 @@ const MemberSchema = new Schema({
 
     memberStatus: {
         type: String,
-        enum: MemberType,
-        default: MemberType.USER,
+        enum: MemberStatus,
+        default: MemberStatus.ACTIVE,
     },
 
     memberAuthType: {
         type: String,
-        enum: MemberType,
-        default: MemberType.USER,
+        enum: MemberAuthType,
+        default: MemberAuthType.PHONE,
     },
 
     memberPhone: {
@@ -80,7 +80,7 @@ const MemberSchema = new Schema({
     },
 
     memberLikes: {
-        types: Number,
+        type: Number,
         default: 0
     },
 
@@ -106,7 +106,7 @@ const MemberSchema = new Schema({
 
     memberBlocks: {
         type: Number,
-        default: 0,
+        default: 0
     },
 
     deletedAt: {

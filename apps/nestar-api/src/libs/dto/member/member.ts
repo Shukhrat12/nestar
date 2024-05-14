@@ -74,6 +74,5 @@ export class Member {
 
     @Field(() => Date, { nullable: true })
     deletedAt?: Date;
-    static BLOCKED: any;
 
 }

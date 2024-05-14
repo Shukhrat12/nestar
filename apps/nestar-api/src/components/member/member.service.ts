@@ -31,7 +31,7 @@ export class MemberService {
         if (!response || response.memberStatus === MemberStatus.DELETE) {
             throw new InternalServerErrorException(Message.NO_MEMBER_NICK)
         } else if (response.memberStatus === MemberStatus.BLOCK) {
-            throw new InternalServerErrorException(Member.BLOCKED)
+            throw new InternalServerErrorException(Message.BLOCKED_USER)
         }
 
         const isMatch = memberPassword === response.memberPassword;

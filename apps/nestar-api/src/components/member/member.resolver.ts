@@ -28,14 +28,14 @@ export class MemberResolver {
             console.log("Mutation: login")
             return this.memberService.login(input);
         } catch (error) {
-            console.log("Error, signup: ", error)
+            console.log("Error, login: ", error)
             throw new InternalServerErrorException;
         }
     }
 
     @Mutation(() => String)
     public async updateMember(): Promise<String> {
-        console.log("Mutation: signup")
+        console.log("Mutation: updateMember")
         return this.memberService.updateMember();
     }
 

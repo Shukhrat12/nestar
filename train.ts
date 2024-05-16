@@ -19,10 +19,28 @@
 
 // MASALAN: stringToKebab(“I love Kebab”) return “i-love-kebab”
 
-function stringToKebab(str: string) {
-    const res = str.replaceAll(" ", "-").toLocaleLowerCase();
-    return res
+// function stringToKebab(str: string) {
+//     const res = str.replaceAll(" ", "-").toLocaleLowerCase();
+//     return res
+// }
+
+// const result = stringToKebab("I love Kebab")
+// console.log(result)
+
+// ZM-TASK:
+
+// Shunday function yozing, u function parametrga berilgan raqamlarni orqasiga ogirib qaytarsin.
+// MASALAN: reverseInteger(123456789) return 987654321
+
+function reverseInteger(num: number) {
+    const strParam = num.toString()
+    let str = ''
+    for (let i = strParam.length - 1; i >= 0; i--) {
+        const element = strParam[i];
+        str += element
+    }
+    return str
 }
 
-const result = stringToKebab("I love Kebab")
+const result = reverseInteger(123456789)
 console.log(result)

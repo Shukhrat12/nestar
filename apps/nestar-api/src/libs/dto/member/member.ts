@@ -74,5 +74,4 @@ export class Member {
 
     @Field(() => Date, { nullable: true })
     deletedAt?: Date;
-
 }

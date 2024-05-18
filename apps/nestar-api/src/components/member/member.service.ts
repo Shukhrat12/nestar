@@ -9,7 +9,6 @@ import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class MemberService {
-
     constructor(
         @InjectModel("Member")
         private readonly memberModel: Model<Member>,
@@ -51,6 +50,14 @@ export class MemberService {
         return 'updateMember executed'
     }
     public async getMember(): Promise<string> {
+        return 'getMember executed'
+    }
+
+    public async updateMemberByAdmin(): Promise<string> {
+        return 'updateMemberById executed'
+    }
+
+    public async getAllMembersByAdmin(): Promise<string> {
         return 'getMember executed'
     }
 }

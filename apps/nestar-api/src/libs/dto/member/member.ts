@@ -74,4 +74,7 @@ export class Member {
 
     @Field(() => Date, { nullable: true })
     deletedAt?: Date;
+
+    @Field(() => String, { nullable: true })
+    accessToken?: string;
 }

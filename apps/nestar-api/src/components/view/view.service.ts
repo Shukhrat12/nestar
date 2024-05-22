@@ -15,10 +15,7 @@ export class ViewService {
         if (!viewExist) {
             console.log('- New View Insert -');
             return await this.viewModel.create(input);
-        } else {
-            console.log('- View Exists -');
-            return null;
-        }
+        } else return null;
     }
 
     private async checkViewExistance(input: ViewInput): Promise<View | null> {

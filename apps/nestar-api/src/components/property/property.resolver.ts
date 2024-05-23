@@ -7,14 +7,15 @@ import { UseGuards } from '@nestjs/common';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Resolver()
 export class PropertyResolver {
     constructor(private readonly propertyService: PropertyService) { }
 
     @Roles(MemberType.AGENT)
-    @UseGuards(Roles)
-    @Mutation()
+    @UseGuards(RolesGuard)
+    @Mutation(() => Property)
     public async createProperty(
         @Args('input') input: PropertyInput,
         @AuthMember("_id") memberId: ObjectId

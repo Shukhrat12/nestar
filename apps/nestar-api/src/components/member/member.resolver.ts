@@ -10,10 +10,9 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import { getSerialForImage, shapeIntoMongoObjectId, validMimeTypes } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
-import GraphQLUpload from 'graphql-upload';
-import FileUpload from 'graphql-upload/Upload.js';
 import { createWriteStream } from 'fs';
 import { Message } from '../../libs/enums/common.enum';
 
@@ -94,9 +93,8 @@ export class MemberResolver {
         return await this.memberService.updateMemberByAdmin(input)
     }
 
-    // IMAGE UPLOADER
     @UseGuards(AuthGuard)
-    @Mutation(() => String)
+    @Mutation((returns) => String)
     public async imageUploader(
         @Args({ name: 'file', type: () => GraphQLUpload })
         { createReadStream, filename, mimetype }: FileUpload,
@@ -161,4 +159,6 @@ export class MemberResolver {
         await Promise.all(promisedList);
         return uploadedImages;
     }
+
+
 }

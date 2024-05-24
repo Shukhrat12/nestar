@@ -1,28 +1,31 @@
-// Shunday function yozing, u parametrdagi string ichidagi qavslar miqdori balansda ekanligini aniqlasin. 
-//Ya'ni ochish("(") va yopish(")") qavslar soni bir xil bolishi kerak.
-// MASALAN: areParenthesesBalanced("string()ichida(qavslar)soni()balansda") return true
+//MITASK: ZP-TASK:
 
-function areParenthesesBalanced(input: string): boolean {
-    if (!input.includes('(') && !input.includes(')')) {
-        return false;
-    }
-    let balance = 0;
-    for (let char of input) {
-        if (char === '(') {
-            balance++;
-        } else if (char === ')') {
-            balance--;
-        }
-        if (balance < 0) {
-            return false;
+// Shunday function yozing, u parametridagi array ichida eng kop takrorlangan raqamni topib qaytarsin.
+// MASALAN: majorityElement([1,2,3,4,5,4,3,4]) return 4
+
+function majorityElement(nums: number[]): number {
+    const count: { [key: number]: number } = {};
+
+    for (const num of nums) {
+        if (count[num] !== undefined) {
+            count[num]++;
+        } else {
+            count[num] = 1;
         }
     }
-    return balance === 0;
+
+    let majority = nums[0];
+    let maxCount = 0;
+
+    for (const num in count) {
+        if (count[num] > maxCount) {
+            maxCount = count[num];
+            majority = Number(num);
+        }
+    }
+
+    return majority;
 }
 
-console.log(areParenthesesBalanced("string()ichida(qavslar)soni()balansda")); // true
-console.log(areParenthesesBalanced("string)ichida(qavslar(")); // false
-console.log(areParenthesesBalanced("string(ichida(qavslar)soni()balansda(")); // false
-console.log(areParenthesesBalanced("((()))")); // true
-console.log(areParenthesesBalanced("(()))(")); // false
-console.log(areParenthesesBalanced("string")); // false
+// Misol:
+console.log(majorityElement([1, 2, 3, 4, 5, 4, 3, 4]));  // Natija: 4

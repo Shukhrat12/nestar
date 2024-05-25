@@ -9,6 +9,8 @@ import { StatisticModifier, T } from '../../libs/types/common';
 import { PropertyStatus } from '../../libs/enums/property.enum';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { ViewService } from '../view/view.service';
+import { PropertyUpdate } from '../../libs/dto/property/property.update';
+import * as moment from 'moment';
 
 @Injectable()
 export class PropertyService {
@@ -30,7 +32,7 @@ export class PropertyService {
 
             return result
         } catch (error) {
-            console.log("Error, Service.model: ", error.message)
+            console.log("Error in createProperty: ", error.message)
             throw new BadRequestException(Message.CREATE_FAILED)
         }
     }
@@ -57,6 +59,7 @@ export class PropertyService {
         targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);
         return targetProperty;
     }
+
     public async propertyStatsEditor(input: StatisticModifier): Promise<Property> {
         const { _id, targetKey, modifier } = input;
         return await this.propertyModel.findByIdAndUpdate(
@@ -65,8 +68,44 @@ export class PropertyService {
             {
                 new: true
             }
-        )
-            .exec();
+        ).exec();
     }
 
+    public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
+        console.log("Entering updateProperty");
+        let { propertyStatus, soldAt, deletedAt } = input;
+
+        const search: T = {
+            _id: input._id,
+            memberId: memberId,
+            propertyStatus: PropertyStatus.ACTIVE
+        }
+
+        if (propertyStatus === PropertyStatus.SOLD) {
+            soldAt = moment().toDate();
+        } else if (propertyStatus === PropertyStatus.DELETE) {
+            deletedAt = moment().toDate();
+        }
+
+        let result: Property;
+        try {
+            result = await this.propertyModel.findOneAndUpdate(search, input, { new: true }).exec();
+        } catch (error) {
+            console.log("Error in findOneAndUpdate: ", error.message);
+            throw new InternalServerErrorException(Message.UPDATE_FAILED);
+        }
+
+        if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+        if (soldAt || deletedAt) {
+            await this.memberService.memberStatsEditor({
+                _id: memberId,
+                targetKey: 'memberProperties',
+                modifier: -1,
+            });
+        }
+
+        console.log("Exiting updateProperty");
+        return result;
+    }
 }

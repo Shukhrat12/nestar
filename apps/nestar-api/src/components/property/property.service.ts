@@ -73,7 +73,6 @@ export class PropertyService {
     }
 
     public async updateProperty(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
-        console.log("Entering updateProperty");
         let { propertyStatus, soldAt, deletedAt } = input;
 
         const search: T = {
@@ -237,4 +236,42 @@ export class PropertyService {
         if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND)
         return result[0];
     }
+
+    public async updatePropertyByAdmin(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
+        let { propertyStatus, soldAt, deletedAt } = input;
+
+        const search: T = {
+            _id: input._id,
+            propertyStatus: PropertyStatus.ACTIVE
+        }
+
+        if (propertyStatus === PropertyStatus.SOLD) {
+            soldAt = moment().toDate();
+        } else if (propertyStatus === PropertyStatus.DELETE) {
+            deletedAt = moment().toDate();
+        }
+
+        let result: Property;
+        try {
+            result = await this.propertyModel.findOneAndUpdate(search, input, { new: true }).exec();
+        } catch (error) {
+            console.log("Error in findOneAndUpdate: ", error.message);
+            throw new InternalServerErrorException(Message.UPDATE_FAILED);
+        }
+
+        if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+        if (soldAt || deletedAt) {
+            await this.memberService.memberStatsEditor({
+                _id: memberId,
+                targetKey: 'memberProperties',
+                modifier: -1,
+            });
+        }
+
+        return result;
+    }
+
+
+
 }

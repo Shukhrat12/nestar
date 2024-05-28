@@ -18,7 +18,8 @@ export enum Message {
     ONLY_SPECIFIC_ROLES_ALLOWED = "Allowed only for members with specific roles!",
     PROVIDE_ALLOWED_FORMAT = "Please provide jpg, jpeg or png images!",
     SELF_SUBSCRIPTION_DENIED = "Self subscription is denied!",
-    UPLOAD_FAILED = "UPLOAD_FAILED"
+    UPLOAD_FAILED = "UPLOAD_FAILED",
+    REMOVE_FAILED = "REMOVE_FAILED"
 }
 
 export enum Direction {

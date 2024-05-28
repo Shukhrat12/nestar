@@ -237,7 +237,7 @@ export class PropertyService {
         return result[0];
     }
 
-    public async updatePropertyByAdmin(memberId: ObjectId, input: PropertyUpdate): Promise<Property> {
+    public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
         let { propertyStatus, soldAt, deletedAt } = input;
 
         const search: T = {
@@ -263,7 +263,7 @@ export class PropertyService {
 
         if (soldAt || deletedAt) {
             await this.memberService.memberStatsEditor({
-                _id: memberId,
+                _id: result.memberId,
                 targetKey: 'memberProperties',
                 modifier: -1,
             });
@@ -272,6 +272,12 @@ export class PropertyService {
         return result;
     }
 
+    public async removePropertyByAdmin(propertyId: ObjectId): Promise<Property> {
+        const search: T = { _id: propertyId, propertyStatus: PropertyStatus.DELETE }
+        const result = await this.propertyModel.findOneAndDelete(search).exec();
+        if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED)
 
+        return result;
+    }
 
 }

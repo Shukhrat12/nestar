@@ -1,17 +1,17 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommentService } from './comment.service';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../components/auth/guards/auth.guard';
-import { CommentInput, CommentsInquiry } from '../libs/dto/comment/comment.input';
-import { AuthMember } from '../components/auth/decorators/authMember.decorator';
+import { AuthGuard } from '../../components/auth/guards/auth.guard';
+import { CommentInput, CommentsInquiry } from '../../libs/dto/comment/comment.input';
+import { AuthMember } from '../../components/auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
-import { Comment, Comments } from '../libs/dto/comment/comment'
-import { shapeIntoMongoObjectId } from '../libs/config';
-import { CommentUpdate } from '../libs/dto/comment/comment.update';
-import { WithoutGuard } from '../components/auth/guards/without.guard';
-import { Roles } from '../components/auth/decorators/roles.decorator';
-import { MemberType } from '../libs/enums/member.enum';
-import { RolesGuard } from '../components/auth/guards/roles.guard';
+import { Comment, Comments } from '../../libs/dto/comment/comment'
+import { shapeIntoMongoObjectId } from '../../libs/config';
+import { CommentUpdate } from '../../libs/dto/comment/comment.update';
+import { WithoutGuard } from '../../components/auth/guards/without.guard';
+import { Roles } from '../../components/auth/decorators/roles.decorator';
+import { MemberType } from '../../libs/enums/member.enum';
+import { RolesGuard } from '../../components/auth/guards/roles.guard';
 
 @Resolver()
 export class CommentResolver {

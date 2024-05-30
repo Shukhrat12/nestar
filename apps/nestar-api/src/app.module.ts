@@ -8,6 +8,7 @@ import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [ConfigModule.forRoot(), GraphQLModule.forRoot({
@@ -25,7 +26,8 @@ import { T } from './libs/types/common';
     }
   }),
     ComponentsModule,
-    DatabaseModule],
+    DatabaseModule,
+    CommentModule],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })

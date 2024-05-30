@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CommentInput } from '../libs/dto/comment/comment.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
@@ -6,7 +6,8 @@ import { MemberService } from '../components/member/member.service';
 import { Message } from '../libs/enums/common.enum';
 import { PropertyService } from '../components/property/property.service';
 import { BoardArticleService } from '../components/board-article/board-article.service';
-import { CommentGroup } from '../libs/enums/comment.enum';
+import { CommentGroup, CommentStatus } from '../libs/enums/comment.enum';
+import { CommentUpdate } from '../libs/dto/comment/comment.update';
 
 @Injectable()
 export class CommentService {
@@ -56,6 +57,18 @@ export class CommentService {
                 break;
         }
 
+        return result;
+    }
+
+    public async updateComment(memberId: ObjectId, input: CommentUpdate): Promise<Comment> {
+        const { _id } = input;
+        const result = await this.commentModel.findOneAndUpdate({
+            _id: _id,
+            memberId: memberId,
+            commentStatus: CommentStatus.ACTIVE
+        }, input, { new: true })
+
+        if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED)
         return result;
     }
 }

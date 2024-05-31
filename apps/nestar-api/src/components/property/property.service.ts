@@ -281,7 +281,7 @@ export class PropertyService {
             likeRefId: likeRefId,
             likeGroup: LikeGroup.PROPERTY
         }
-        // LIKE TOGGLE via Like modules
+
         const modifier: number = await this.likeService.likeToggle(input);
         const result = await this.propertyStatsEditor({ _id: likeRefId, targetKey: 'propertyLikes', modifier: modifier });
 

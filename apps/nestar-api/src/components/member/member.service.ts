@@ -90,6 +90,9 @@ export class MemberService {
                 await this.memberModel.findOneAndUpdate(search, { $inc: { memberViews: 1 } }, { new: true }).exec();
                 targetMember.memberViews++;
             }
+
+            const likeInput = { memberId: memberId, likeRefId: targetId, likeGroup: LikeGroup.MEMBER };
+            targetMember.meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
         return targetMember;
     }
@@ -155,13 +158,14 @@ export class MemberService {
             likeRefId: likeRefId,
             likeGroup: LikeGroup.MEMBER
         }
-        
+
         const modifier: number = await this.likeService.likeToggle(input);
         const result = await this.memberStatsEditor({ _id: likeRefId, targetKey: 'memberLikes', modifier: modifier });
 
         if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG)
         return result;
     }
+
 
 
 

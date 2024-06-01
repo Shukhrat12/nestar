@@ -59,6 +59,9 @@ export class PropertyService {
                 await this.propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1 })
                 targetProperty.propertyViews++;
             }
+
+            const likeInput = { memberId: memberId, likeRefId: propertyId, likeGroup: LikeGroup.PROPERTY };
+            targetProperty.meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
 
         targetProperty.memberData = await this.memberService.getMember(null, targetProperty.memberId);
@@ -288,8 +291,6 @@ export class PropertyService {
         if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG)
         return result;
     }
-
-
 
 
     public async propertyStatsEditor(input: StatisticModifier): Promise<Property> {

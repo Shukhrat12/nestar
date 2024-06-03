@@ -1,6 +1,7 @@
 import { registerEnumType } from "@nestjs/graphql";
 
 export enum Message {
+    BAD_REQUEST = "Bad request",
     SOMETHING_WENT_WRONG = "Something went wrong!",
     NO_DATA_FOUND = "No data is found!",
     BLOCKED_USER = "Your account has been disactivated, please contact the administration!",

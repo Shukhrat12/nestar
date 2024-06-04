@@ -9,6 +9,7 @@ import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
 import { T } from './libs/types/common';
 import { CommentModule } from './components/comment/comment.module';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [ConfigModule.forRoot(), GraphQLModule.forRoot({
@@ -27,7 +28,9 @@ import { CommentModule } from './components/comment/comment.module';
   }),
     ComponentsModule,
     DatabaseModule,
-    CommentModule],
+    CommentModule,
+    SocketModule
+  ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })

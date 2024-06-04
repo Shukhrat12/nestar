@@ -6,7 +6,7 @@ import { Follower, Followers, Following, Followings } from '../../libs/dto/follo
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { FollowInquiry } from '../../libs/dto/follow/follow.input';
 import { T } from '../../libs/types/common';
-import { lookupFollowerData, lookupFollowingData, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupAuthMemberLiked, lookupFollowerData, lookupFollowingData, shapeIntoMongoObjectId } from '../../libs/config';
 
 @Injectable()
 export class FollowService {
@@ -78,7 +78,7 @@ export class FollowService {
                     list: [
                         { $skip: (page - 1) * limit },
                         { $limit: limit },
-                        // meLiked
+                        lookupAuthMemberLiked(memberId, "$followingId"),
                         // meFollowed
                         lookupFollowingData,
                         { $unwind: '$followingData' }
@@ -99,7 +99,6 @@ export class FollowService {
         if (!search?.followingId) throw new InternalServerErrorException(Message.BAD_REQUEST)
 
         const match: T = { followingId: search?.followingId }
-
         console.log('match: ', match)
 
         const result = await this.followModel.aggregate([
@@ -110,7 +109,7 @@ export class FollowService {
                     list: [
                         { $skip: (page - 1) * limit },
                         { $limit: limit },
-                        // meLiked
+                        lookupAuthMemberLiked(memberId, "$followerId"),
                         // meFollowed
                         lookupFollowerData,
                         { $unwind: '$followerData' }

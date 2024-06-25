@@ -86,7 +86,6 @@ export class PropertyResolver {
     ): Promise<Properties> {
         console.log('Query: getAgentProperties')
         return await this.propertyService.getAgentProperties(memberId, input)
-
     }
 
     @UseGuards(AuthGuard)

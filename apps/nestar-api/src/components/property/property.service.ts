@@ -205,7 +205,6 @@ export class PropertyService {
                         metaCounter: [{ $count: 'total' }]
                     },
                 }
-
             ])
             .exec();
         if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND)

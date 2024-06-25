@@ -45,8 +45,7 @@ export class CommentResolver {
     ): Promise<Comments> {
         console.log('Query: getComments')
         input.search.commentRefId = shapeIntoMongoObjectId(input.search.commentRefId);
-        const result = await this.commentService.getComment(memberId, input);
-        return result;
+        return await this.commentService.getComments(memberId, input);
     }
 
     /** ADMIN **/
